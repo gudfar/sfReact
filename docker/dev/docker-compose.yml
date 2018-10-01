@@ -1,0 +1,20 @@
+version: '2'
+services:
+  nginx:
+    build: ./nginx
+    ports:
+     - "8021:80"
+    volumes:
+     - "${PROJECT_PATH}:/www"
+    restart: always
+  mysql:
+    build: ./mysql
+    ports: 
+     - "8022:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 111111
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 111111
+      MYSQL_DATABASE: sfReact
+    restart: always
