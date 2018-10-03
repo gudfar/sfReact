@@ -1,18 +1,23 @@
 import {Component} from "react";
 import React from "react";
+import RepLogList from './RepLogList';
+
 
 export default class RepLogApp extends Component {
 
     constructor(props) {
         super(props);//parent constructor
         this.state = {highlightedRowId: null};
+        this.handleMouseMove = this.handleMouseMove.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
+
     }
 
-    handleMouseMove(repLogId, event) {
+    handleMouseMove(repLogId) {
         this.setState({highlightedRowId: repLogId});
     }
 
-    handleMouseLeave(event) {
+    handleMouseLeave() {
         this.setState({highlightedRowId: null});
     }
 
@@ -24,21 +29,6 @@ export default class RepLogApp extends Component {
         if (withHeart) {
             heart = <span>♥️️</span>;
         }
-        const repLogs = [
-            { id: 1, reps: 25, itemLabel: 'My Laptop', totalWeightLifted: 112.5 },
-            { id: 2, reps: 10, itemLabel: 'Big Fat Cat', totalWeightLifted: 180 },
-            { id: 8, reps: 4, itemLabel: 'Big Fat Cat', totalWeightLifted: 72 }
-        ];
-        const repLogElements = repLogs.map((repLog) => {
-            return (
-                <tr key={repLog.id}>
-                    <td>{repLog.itemLabel}</td>
-                    <td>{repLog.reps}</td>
-                    <td>{repLog.totalWeightLifted}</td>
-                    <td>...</td>
-                </tr>
-            )
-        });
         return (
             <div className="col-md-7">
                 <h2>Lift Stuff! {heart}</h2>
@@ -51,25 +41,11 @@ export default class RepLogApp extends Component {
                         <th>&nbsp;</th>
                     </tr>
                     </thead>
-                    <tbody>
-                        {
-                            repLogs.map((repLog) => {
-                                return (
-                                    <tr
-                                        key={repLog.id}
-                                        className={highlightedRowId === repLog.id ? 'info' : ''}
-                                        onMouseMove={(event) => this.handleMouseMove(repLog.id, event) }
-                                        onMouseLeave={(event) => this.handleMouseLeave(event) }
-                                    >
-                                        <td>{repLog.itemLabel}</td>
-                                        <td>{repLog.reps}</td>
-                                        <td>{repLog.totalWeightLifted}</td>
-                                        <td>...</td>
-                                    </tr>
-                                );
-                            })
-                        }
-                    </tbody>
+                        <RepLogList
+                            highlightedRowId={highlightedRowId}
+                            onMouseMove={this.handleMouseMove}
+                            onMouseLeave={this.handleMouseLeave}
+                        />
                     <tfoot>
                     <tr>
                         <td>&nbsp;</td>
