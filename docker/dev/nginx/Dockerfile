@@ -52,6 +52,8 @@ RUN npm install -g node-static && npm install -g yarn
 RUN yarn add react react-dom --dev --ignore-engines
 RUN yarn add babel-preset-react --dev --ignore-engines
 RUN yarn add eslint-plugin-react --dev --ignore-engines
+RUN yarn add prop-types --dev --ignore-engines
+RUN yarn add babel-plugin-transform-react-remove-prop-types --dev --ignore-engines
 
 EXPOSE 80
 
