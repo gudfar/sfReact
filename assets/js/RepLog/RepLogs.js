@@ -8,7 +8,8 @@ export default function RepLogs (props) {
         withHeart,
         highlightedRowId,
         onMouseMove,
-        onMouseLeave
+        onMouseLeave,
+        repLogs
     } = props;
 
     let heart = '';
@@ -32,6 +33,7 @@ export default function RepLogs (props) {
                     highlightedRowId={highlightedRowId}
                     onMouseMove={onMouseMove}
                     onMouseLeave={onMouseLeave}
+                    repLogs={repLogs}
                 />
                 <tfoot>
                 <tr>
@@ -82,4 +84,5 @@ RepLogs.propTypes = {
     highlightedRowId: PropTypes.any,
     onMouseMove: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func.isRequired,
+    repLogs: PropTypes.array.isRequired
 };

@@ -8,7 +8,14 @@ export default class RepLogApp extends Component {
 
     constructor(props) {
         super(props);//parent constructor
-        this.state = {highlightedRowId: null};
+        this.state = {
+            highlightedRowId: null,
+            repLogs: [
+                { id: 1, reps: 25, itemLabel: 'My Laptop', totalWeightLifted: 112.5 },
+                { id: 2, reps: 10, itemLabel: 'Big Fat Cat', totalWeightLifted: 180 },
+                { id: 8, reps: 4, itemLabel: 'Big Fat Cat', totalWeightLifted: 72 }
+            ]
+        };
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
     }
@@ -22,7 +29,7 @@ export default class RepLogApp extends Component {
     }
 
     render() {
-        const { highlightedRowId } = this.state;
+        const { highlightedRowId, repLogs } = this.state;
         const { withHeart } = this.props;
 
         return (
@@ -31,6 +38,7 @@ export default class RepLogApp extends Component {
                 withHeart={withHeart}
                 onMouseMove={this.handleMouseMove}
                 onMouseLeave={this.handleMouseLeave}
+                repLogs={repLogs}
             />
         );
     }
