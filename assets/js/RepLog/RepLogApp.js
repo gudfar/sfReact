@@ -34,11 +34,10 @@ export default class RepLogApp extends Component {
 
         return (
             <RepLogs
-                highlightedRowId={highlightedRowId}
-                withHeart={withHeart}
+                {...this.props}
+                {...this.state}
                 onMouseMove={this.handleMouseMove}
                 onMouseLeave={this.handleMouseLeave}
-                repLogs={repLogs}
             />
         );
     }
