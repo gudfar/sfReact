@@ -28,6 +28,11 @@ export default class RepLogApp extends Component {
         this.setState({highlightedRowId: null});
     }
 
+    handleNewItemSubmit(itemName, reps) {
+        console.log('TODO - handle this new data');
+        console.log(itemName, reps);
+    }
+
     render() {
         const { highlightedRowId, repLogs } = this.state;
         const { withHeart } = this.props;
@@ -38,6 +43,7 @@ export default class RepLogApp extends Component {
                 {...this.state}
                 onMouseMove={this.handleMouseMove}
                 onMouseLeave={this.handleMouseLeave}
+                onNewItemSubmit={this.handleNewItemSubmit}
             />
         );
     }
