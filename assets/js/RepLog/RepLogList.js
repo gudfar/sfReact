@@ -7,8 +7,26 @@ export default function RepLogList (props) {
         highlightedRowId,
         onMouseMove,
         onMouseLeave,
-        repLogs
+        onDeleteRepLog,
+        repLogs,
+        isLoaded
     } = props;
+
+    const handleDeleteClick = function(event, repLogId) {
+        event.preventDefault();
+        onDeleteRepLog(repLogId);
+    };
+
+
+    if (!isLoaded) {
+        return (
+            <tbody>
+            <tr>
+                <td colSpan="4" className="text-center">Loading...</td>
+            </tr>
+            </tbody>
+        );
+    }
 
     return (<tbody>
     {
@@ -23,7 +41,11 @@ export default function RepLogList (props) {
                     <td>{repLog.itemLabel}</td>
                     <td>{repLog.reps}</td>
                     <td>{repLog.totalWeightLifted}</td>
-                    <td>...</td>
+                    <td>
+                        <a href="#" onClick={(event) => handleDeleteClick(event, repLog.id) }>
+                            <span className="fa fa-trash"></span>
+                        </a>
+                    </td>
                 </tr>
             );
         })
@@ -36,4 +58,6 @@ RepLogList.propTypes = {
     onMouseMove: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func.isRequired,
     repLogs: PropTypes.array.isRequired,
+    onDeleteRepLog: PropTypes.func.isRequired,
+    isLoaded: PropTypes.bool.isRequired,
 };
