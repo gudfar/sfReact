@@ -2,6 +2,7 @@ import React from "react";
 import RepLogList from "./RepLogList";
 import PropTypes from 'prop-types';
 import RepLogCreator from './RepLogCreator';
+// import RepLogCreator from './RepLogCreatorControlledComponents';
 
 
 function calculateTotalWeightLifted(repLogs) {
@@ -22,18 +23,27 @@ export default function RepLogs (props) {
         highlightedRowId,
         onMouseMove,
         onMouseLeave,
-        onNewItemSubmit,
-        repLogs
+        onAddRepLog,
+        numberOfHearts,
+        repLogs,
+        onHeartChange
     } = props;
 
     let heart = '';
     if (withHeart) {
-        heart = <span>♥️️</span>;
+        heart = <span>{'❤️'.repeat(numberOfHearts)}</span>;
     }
 
     return (
         <div className="col-md-7">
             <h2>Lift Stuff! {heart}</h2>
+            <input
+                type="range"
+                value={numberOfHearts}
+                onChange={(e) => {
+                    onHeartChange(+e.target.value);
+                }}
+            />
             <table className="table table-striped">
                 <thead>
                 <tr>
@@ -58,9 +68,16 @@ export default function RepLogs (props) {
                 </tr>
                 </tfoot>
             </table>
-            <RepLogCreator
-                onNewItemSubmit={onNewItemSubmit}
-            />
+
+            <div className="row">
+                <div className="col-md-6">
+                    <RepLogCreator
+                        onAddRepLog={onAddRepLog}
+                    />
+                </div>
+            </div>
+
+
         </div>
     );
 }
@@ -69,7 +86,9 @@ RepLogs.propTypes = {
     withHeart: PropTypes.bool,
     highlightedRowId: PropTypes.any,
     onMouseMove: PropTypes.func.isRequired,
-    onNewItemSubmit: PropTypes.func.isRequired,
+    onAddRepLog: PropTypes.func.isRequired,
     onMouseLeave: PropTypes.func.isRequired,
-    repLogs: PropTypes.array.isRequired
+    numberOfHearts: PropTypes.number.isRequired,
+    repLogs: PropTypes.array.isRequired,
+    onHeartChange: PropTypes.func.isRequired
 };

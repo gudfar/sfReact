@@ -2,7 +2,7 @@ import {Component} from "react";
 import React from "react";
 import PropTypes from 'prop-types';
 import RepLogs from './RepLogs';
-
+import uuid from 'uuid/v4';
 
 export default class RepLogApp extends Component {
 
@@ -10,14 +10,17 @@ export default class RepLogApp extends Component {
         super(props);//parent constructor
         this.state = {
             highlightedRowId: null,
+            numberOfHearts: 1,
             repLogs: [
-                { id: 1, reps: 25, itemLabel: 'My Laptop', totalWeightLifted: 112.5 },
-                { id: 2, reps: 10, itemLabel: 'Big Fat Cat', totalWeightLifted: 180 },
-                { id: 8, reps: 4, itemLabel: 'Big Fat Cat', totalWeightLifted: 72 }
+                { id: uuid(), reps: 25, itemLabel: 'My Laptop', totalWeightLifted: 112.5 },
+                { id: uuid(), reps: 10, itemLabel: 'Big Fat Cat', totalWeightLifted: 180 },
+                { id: uuid(), reps: 4, itemLabel: 'Big Fat Cat', totalWeightLifted: 72 }
             ]
         };
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
+        this.handleAddRepLog = this.handleAddRepLog.bind(this);
+        this.handleHeartChange = this.handleHeartChange.bind(this);
     }
 
     handleMouseMove(repLogId) {
@@ -28,9 +31,24 @@ export default class RepLogApp extends Component {
         this.setState({highlightedRowId: null});
     }
 
-    handleNewItemSubmit(itemName, reps) {
-        console.log('TODO - handle this new data');
-        console.log(itemName, reps);
+    handleAddRepLog(itemLabel, reps) {
+        const newRep = {
+            id: uuid(),
+            reps: reps,
+            itemLabel: itemLabel,
+            totalWeightLifted: Math.floor(Math.random() * 50)
+        };
+
+        this.setState(prevState => {
+            const newRepLogs = [...prevState.repLogs, newRep];
+            return {repLogs: newRepLogs};
+        });
+    }
+
+    handleHeartChange(heartCount) {
+        this.setState({
+            numberOfHearts: heartCount
+        });
     }
 
     render() {
@@ -43,7 +61,8 @@ export default class RepLogApp extends Component {
                 {...this.state}
                 onMouseMove={this.handleMouseMove}
                 onMouseLeave={this.handleMouseLeave}
-                onNewItemSubmit={this.handleNewItemSubmit}
+                onAddRepLog={this.handleAddRepLog}
+                onHeartChange={this.handleHeartChange}
             />
         );
     }

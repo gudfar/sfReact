@@ -54,6 +54,7 @@ RUN yarn add babel-preset-react --dev --ignore-engines
 RUN yarn add eslint-plugin-react --dev --ignore-engines
 RUN yarn add prop-types --dev --ignore-engines
 RUN yarn add babel-plugin-transform-react-remove-prop-types --dev --ignore-engines
+RUN yarn add uuid --dev --ignore-engines
 
 EXPOSE 80
 
