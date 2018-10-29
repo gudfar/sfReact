@@ -38,6 +38,7 @@ export default function RepLogList (props) {
                     className={highlightedRowId === repLog.id ? 'info' : ''}
                     onMouseMove={()  => onMouseMove(repLog.id) }
                     onMouseLeave={() => onMouseLeave() }
+                    style={{opacity: repLog.isDeleting ? .3 : 1}}
                 >
                     <td>{repLog.itemLabel}</td>
                     <td>{repLog.reps}</td>
