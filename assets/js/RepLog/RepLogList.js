@@ -9,7 +9,8 @@ export default function RepLogList (props) {
         onMouseLeave,
         onDeleteRepLog,
         repLogs,
-        isLoaded
+        isLoaded,
+        isSavingNewRepLog
     } = props;
 
     const handleDeleteClick = function(event, repLogId) {
@@ -50,6 +51,14 @@ export default function RepLogList (props) {
             );
         })
     }
+
+    {isSavingNewRepLog && (
+        <tr>
+            <td colSpan="4" className="text-center" style={{opacity: .5}}>
+                Lifting to the database ...
+            </td>
+        </tr>
+        )}
     </tbody>);
 }
 
@@ -60,4 +69,5 @@ RepLogList.propTypes = {
     repLogs: PropTypes.array.isRequired,
     onDeleteRepLog: PropTypes.func.isRequired,
     isLoaded: PropTypes.bool.isRequired,
+    isSavingNewRepLog: PropTypes.bool.isRequired,
 };

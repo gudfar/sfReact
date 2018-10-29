@@ -2,7 +2,6 @@ import {Component} from "react";
 import React from "react";
 import PropTypes from 'prop-types';
 import RepLogs from './RepLogs';
-import uuid from 'uuid/v4';
 import { getRepLogs, deleteRepLog, createRepLog } from '../api/rep_log_api';
 
 export default class RepLogApp extends Component {
@@ -13,8 +12,13 @@ export default class RepLogApp extends Component {
             highlightedRowId: null,
             numberOfHearts: 1,
             repLogs: [],
-            isLoaded: false
+            isLoaded: false,
+            isSavingNewRepLog: false,
+            successMessage: ''
         };
+
+
+        this.successMessageTimeoutHandle = 0;
 
         this.handleMouseMove = this.handleMouseMove.bind(this);
         this.handleMouseLeave = this.handleMouseLeave.bind(this);
@@ -34,6 +38,10 @@ export default class RepLogApp extends Component {
             });
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.successMessageTimeoutHandle);
+    }
+
     handleMouseMove(repLogId) {
         this.setState({highlightedRowId: repLogId});
     }
@@ -46,15 +54,24 @@ export default class RepLogApp extends Component {
 
         const newRep = {
             reps: reps,
-            item: item
+            item: item,
         };
+
+        this.setState({
+            isSavingNewRepLog: true
+        });
 
         createRepLog(newRep)
             .then(repLog => {
                 this.setState(prevState => {
                     const newRepLogs = [...prevState.repLogs, repLog];
-                    return {repLogs: newRepLogs};
-                })
+                    return {
+                        repLogs: newRepLogs,
+                        isSavingNewRepLog: false,
+                    };
+                });
+
+                this.setSuccessMessage('Rep Log Saved!');
             })
         ;
     }
@@ -75,6 +92,24 @@ export default class RepLogApp extends Component {
                 repLogs: prevState.repLogs.filter(repLog => repLog.id !== id)
             };
         });
+    }
+
+
+    setSuccessMessage(message) {
+        this.setState({
+            successMessage: message
+        });
+
+
+        clearTimeout(this.successMessageTimeoutHandle);
+
+
+        this.successMessageTimeoutHandle = setTimeout(() => {
+            this.setState({
+                successMessage: ''
+            });
+            this.successMessageTimeoutHandle = 0;
+        }, 3000)
     }
 
     render() {
